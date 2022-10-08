@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     
     fontSize: 15,
     color: colors.text,
-    fontFamily: "SourceSansPro-Bold"
+    fontFamily: "SansPro-Bold"
   },
 
   features: {

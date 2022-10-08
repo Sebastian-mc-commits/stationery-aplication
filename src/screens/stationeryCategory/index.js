@@ -4,7 +4,7 @@ import { Search, SourceStationery } from "../../components";
 import { Category } from "../../constants/data";
 import { styles } from "./style";
 
-const StationeryCategory = ({ navigation, route }) => {
+const StationeryCategory = ({ navigation }) => {
 
   const [filterListSearch, setFilterListSearch] = useState([]);
 
@@ -21,8 +21,7 @@ const StationeryCategory = ({ navigation, route }) => {
 
       <Image
         source={require("../../images/img1.jpg")}
-        style={{ width: "95%", height: "80%", opacity: 0.7 }}
-        blurRadius />
+        style={{ width: "95%", height: "80%", opacity: 0.7 }} />
     </SourceStationery>
   );
   return (

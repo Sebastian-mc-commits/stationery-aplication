@@ -7,21 +7,21 @@ import {Card} from "../../components/card";
 import {styles} from "./style";
 
 // "SourceSansPro-BlackItalic"
-const Stack = createBottomTabNavigator();
+const ButtonTab = createBottomTabNavigator();
 
 const Tabs = () => {
 
   return (
     
-    <Stack.Navigator
+    <ButtonTab.Navigator
       initialRouteName="StationeryCategory"
       screenOptions={{
         headerShown: false,
-        tabBarStyle: styles.tabBar,
+        tabBarStyle: styles.tabBar
         //tabBarShowLabel: false
       }}
       >
-      <Stack.Screen
+      <ButtonTab.Screen
         name="StationeryCategory"
         component={StationeryMain}
         options={{
@@ -32,7 +32,7 @@ const Tabs = () => {
           )
         }}/>
 
-      <Stack.Screen
+      <ButtonTab.Screen
         name="GlobalSearch"
         component={GlobalSearch}
         options={{
@@ -44,7 +44,7 @@ const Tabs = () => {
           )
         }}/>
 
-      <Stack.Screen 
+      <ButtonTab.Screen 
         name="Sales"
         component={Sales}
         options={{
@@ -55,7 +55,7 @@ const Tabs = () => {
           )
         }}/>
 
-      <Stack.Screen 
+      <ButtonTab.Screen 
         name="SalesData"
         component={SalesData}
         options={{
@@ -65,7 +65,7 @@ const Tabs = () => {
             <MaterialCommunityIcons name={focused? "database" : "database-outline"} size={24} color={colors.secondary} />
           )
         }}/>
-    </Stack.Navigator>
+    </ButtonTab.Navigator>
     
   );
 }

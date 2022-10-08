@@ -7,11 +7,6 @@ export const styles = StyleSheet.create({
 
   tabBar: {
 
-    position: "absolute",
-    bottom: height * 0.04,
-    right: 15,
-    left: 15,
-    padding: 15,
     height: height * 0.1,
     shadowColor: colors.dark,
         shadowOffset: {
@@ -22,7 +17,9 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
         elevation: 4,
-        borderRadius: 4,
-    backgroundColor: "#ffffff"
+        borderRadius: 10,
+    backgroundColor: "#ffffff",
+
+    margin: 10
   },
 });
