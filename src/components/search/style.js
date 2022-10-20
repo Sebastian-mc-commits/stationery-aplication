@@ -17,6 +17,11 @@ export const styles = StyleSheet.create({
 
         borderBottomColor: colors.dark,
         borderBottomWidth: 1,
-        width: width * 0.5
+        width: width * 0.3
+    },
+
+    containerInput: {
+
+      flexDirection: "row"
     }
 });

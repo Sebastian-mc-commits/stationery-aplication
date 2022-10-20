@@ -1,42 +1,59 @@
-import React, { useState } from "react";
-import { FlatList, Image, View, Platform } from "react-native";
-import { Search, SourceStationery } from "../../components";
-import { Category } from "../../constants/data";
-import { styles } from "./style";
+import React, { useState, useCallback, useEffect } from 'react';
+import { FlatList, Image, View, TouchableOpacity, Text } from 'react-native';
+import { SourceStationery } from '../../components';
+import { styles } from './style';
+import {
+  selectCategory,
+  addCommit,
+  getCategory
+} from '../../store/actions';
+import { useSelector, useDispatch } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 
 const StationeryCategory = ({ navigation }) => {
+  const dispatch = useDispatch();
 
-  const [filterListSearch, setFilterListSearch] = useState([]);
+  const category = useSelector((state) => state.category.list);
+  const selectedBySearch = useSelector(
+    (state) => state.globalSearch.selectedSearch.item
+  );
 
-  const filterSearch = (content) => {
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getCategory());
+    }, [dispatch])
+  );
 
-    setFilterListSearch(content);
-  }
+  const onSelected = (item) => {
+    dispatch(selectCategory(item.id));
 
-  const onSelected = (item) => navigation.navigate("StationeryItems", { name: item.name, idC: item.id, background: item.background });
+    dispatch(addCommit({ id: Date.now(), name: item.name, date: Date.now() }));
+
+    navigation.navigate('StationeryItems', {
+      name: item.name,
+      background: item.background,
+    });
+  };
 
   const renderItem = ({ item }) => (
-
-    <SourceStationery item={item} onSelected={onSelected}>
-
+    <SourceStationery
+      item={item}
+      onSelected={selectedBySearch ? () => null : onSelected}>
       <Image
-        source={require("../../images/img1.jpg")}
-        style={{ width: "95%", height: "80%", opacity: 0.7 }} />
+        source={{ uri: item.image }}
+        style={{ width: '50%', height: '100%', opacity: 0.7 }}
+      />
     </SourceStationery>
   );
   return (
-
     <View style={styles.container}>
-
-      <Search dataList={Category} filterSearch={filterSearch} />
       <FlatList
-
-        data={filterListSearch.length > 0 ? filterListSearch : Category}
+        data={category}
         renderItem={renderItem}
-        keyExtractor={content => content.id}
-        //numColumns={ Platform.OS === "ios" && 2}
-        style={styles.container} />
+        keyExtractor={(content) => content.id}
+        style={styles.container}
+      />
     </View>
   );
-}
+};
 export default StationeryCategory;

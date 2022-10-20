@@ -1,0 +1,6 @@
+export const itemTypes = {
+  SELECTED_ITEM: 'SELECTED_ITEM',
+  GET_ITEM: 'GET_ITEM',
+  DELETE_ITEMS: 'DELETE_ITEMS',
+  UPDATE_ITEMS: 'UPDATE_ITEMS',
+};

@@ -1,57 +1,115 @@
-import React, {useState} from "react";
-import {Items, Category} from "../../constants/data";
-import {Card, Search} from "../../components";
-import {FlatList, Text, View} from "react-native";
-import {SourceStationery} from "../../components";
-import {styles} from "./style";
-import {colors} from "../../constants/themes";
+import React, { useState } from 'react';
+import { Card, Search, UpdateItem } from '../../components';
+import { FlatList, Text, View, TouchableOpacity } from 'react-native';
+import { styles } from './style';
+import { UpdateDelete, StationeryItem, StationeryItems } from '../index';
+import { colors } from '../../constants/themes';
+import { useSelector, useDispatch } from 'react-redux';
+import { MaterialIcons } from '@expo/vector-icons';
+import {
+  selected,
+  deleteItem,
+  activeModal,
+  updateCategory,
+  updateItem,
+  selectCategory
+} from '../../store/actions';
 
-const GlobalSearch = ({navigation}) => {
-
+const GlobalSearch = ({ navigation }) => {
   const [filterListSearch, setFilterListSearch] = useState([]);
+  const dispatch = useDispatch();
+  const items = useSelector((state) => state.items.items);
+  const category = useSelector((state) => state.category.list);
 
-  const conditionFilterSearch = filterListSearch.length >= 2 && filterListSearch.length <= 3? colors.warn : colors.primary;
-  const onSelected = (item) => {
+  const categoryItems = items.concat(category);
 
-    if (item.idC === undefined){
-
-      return navigation.navigate("StationeryCategory");
+  const onSelected = (item, screen) => {
+    if (screen === 'delete') {
+      return dispatch(deleteItem(item));
+    } else if (screen === 'showItems') {
+      dispatch(selectCategory(item.id));
+      return dispatch(activeModal(true, <StationeryItems />));
     }
-    const categoryFilterNavigation = Category.find(content => content.id === item.idC);
-    
-    return navigation.navigate("StationeryItems", { name: categoryFilterNavigation.name, 
-    idC: categoryFilterNavigation.id,
-     background: categoryFilterNavigation.background });
-  }
+    return dispatch(selected(item, screen));
+  };
+  const conditionFilterSearch =
+    filterListSearch.length < 3 ? colors.danger : colors.primary;
 
-  const categoryItems = Items.concat(Category);
+  const renderItem = ({ item }) => (
+    <View style={styles.renderItemContent}>
+      <TouchableOpacity
+        onPress={() =>
+          onSelected(
+            item,
+            item.key === undefined ? 'showItems' : <StationeryItem />
+          )
+        }>
+        <Text style={styles.message}>
+          {item.key === undefined ? 'Categoria' : 'Item'}
+        </Text>
+        <Text style={styles.itemName}>{item.name}</Text>
+      </TouchableOpacity>
+      {item.key === undefined || (
+        <TouchableOpacity
+          style={styles.deleteIcon}
+          onPress={() => onSelected(item, 'delete')}>
+          <MaterialIcons name="delete" size={30} color={colors.dark} />
+        </TouchableOpacity>
+      )}
 
-  const filterSearch = content => setFilterListSearch(content);
-
-  const renderItem = ({item}) => <SourceStationery item={item} onSelected={onSelected}/>
+      <TouchableOpacity style={styles.updateIcon}>
+        <MaterialIcons
+          name="system-update-alt"
+          size={30}
+          color={colors.dark}
+          onPress={() =>
+            onSelected(
+              item,
+              <UpdateItem
+                list={item}
+                dispatchAction={
+                  item.key === undefined ? updateCategory : updateItem
+                }
+                showComponentList={Boolean(item.key === undefined)}
+              />
+            )
+          }
+        />
+      </TouchableOpacity>
+    </View>
+  );
   return (
-    
-    
     <Card style={styles.container}>
-
       <View style={styles.contentContainer}>
         <Text style={styles.data}>Datos encontrados: </Text>
-        <Text style={{color: filterListSearch.length === 0? colors.danger : conditionFilterSearch, 
-        fontFamily: "SourceSansPro-BlackItalic"
-        }}>{filterListSearch.length}</Text>
+        <Text
+          style={{
+            color:
+              filterListSearch.length === 0
+                ? colors.danger
+                : conditionFilterSearch,
+            ...styles.number,
+          }}>
+          {filterListSearch.length}
+        </Text>
       </View>
-      
-        <Search dataList={categoryItems} filterSearch={filterSearch}/>
-      {filterListSearch.length > 0 || <Text style={styles.placeholderWrite}>
-        Si la busqueda coincide con los datos almacenados,
-          aparecera aqui.</Text>}
-          
-      <FlatList 
-      
+      <Search
+        dataList={categoryItems}
+        filterSearch={(content) => setFilterListSearch(content)}
+      />
+      {filterListSearch.length > 0 || (
+        <Text style={styles.placeholderWrite}>
+          Si la busqueda coincide con los datos almacenados, aparecera aqui.
+        </Text>
+      )}
+
+      <FlatList
         data={filterListSearch}
-        keyExtractor={item => item.id * (Math.random() * Date.now()).toString()}
-        renderItem={renderItem}/>
+        renderItem={renderItem}
+        style={styles.flatListContainer}
+        keyExtractor={(item) => item.id}
+      />
     </Card>
   );
-}
+};
 export default GlobalSearch;

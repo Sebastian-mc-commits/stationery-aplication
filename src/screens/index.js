@@ -4,3 +4,7 @@ export {default as StationeryItem} from "./stationeryItem";
 export {default as GlobalSearch} from "./globalSearch";
 export {default as Sales} from "./sales";
 export {default as SalesData} from "./salesData";
+export {default as History} from "./history";
+export {default as More} from "./more";
+export {default as Add} from "./add";
+export { default as UpdateDelete} from "./update.delete/index";

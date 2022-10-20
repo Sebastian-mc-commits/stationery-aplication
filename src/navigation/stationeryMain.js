@@ -7,6 +7,7 @@ const Stack = createNativeStackNavigator();
 
 const StationeryMain = () => {
 
+
   return (
 
     <Stack.Navigator
@@ -18,22 +19,23 @@ const StationeryMain = () => {
         options={{
           title: "Categorias",
           headerStyle: {
-            backgroundColor: colors.dark
-            ,
+            backgroundColor: colors.dark,
+
           },
           headerTintColor: colors.light,
           headerTitleStyle: {
 
             fontFamily: "SansPro-Italic",
-            fontSize: 20
+            fontSize: 20,
           }
+
         }} />
 
       <Stack.Screen
         name="StationeryItems"
         component={StationeryItems}
         options={({ route }) => ({
-          title: route.params.name,
+          title: `item ${route.params.name}`,
           headerStyle: {
             backgroundColor: route.params.background,
           },
@@ -42,13 +44,14 @@ const StationeryMain = () => {
             fontFamily: "SansPro-Italic",
             fontSize: 20
           },
+          
         })} />
 
       <Stack.Screen
         name="StationeryItem"
         component={StationeryItem}
         options={({ route }) => ({
-          title: route.params.name,
+          title: `item ${route.params.name}`,
           headerStyle: {
             backgroundColor: route.params.background,
           },

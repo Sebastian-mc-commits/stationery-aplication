@@ -1,38 +1,55 @@
-import React, {useState} from "react";
-import { View, FlatList } from "react-native";
-import { Search, SourceStationery } from "../../components";
-import { Items } from "../../constants/data";
-import {styles} from "./styles";
-
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, FlatList, Text } from 'react-native';
+import { Search, SourceStationery } from '../../components';
+import { styles } from './styles';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectItem, addCommit } from '../../store/actions';
+import { useFocusEffect } from '@react-navigation/native';
+import { getItem } from '../../store/actions';
 const StationeryItems = ({ navigation, route }) => {
+  const dispatch = useDispatch();
 
-  const [filterListSearch, setFilterListSearch] = useState([]);
+  const selectedCategory = useSelector((state) => state.category.selected);
+  const modalVisible = useSelector((state) => state.customModal.content.value);
 
-  const filterSearch = (content) => {
+  const items = useSelector((state) => state.items.items);
 
-    setFilterListSearch(content);
-  }
+  const filter = items.filter((item) => item.key == selectedCategory);
 
-  const { idC } = route.params;
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getItem());
+    }, [dispatch])
+  );
 
   const onSelected = (item) => {
+    dispatch(addCommit({ id: Date.now(), name: item.name, date: Date.now() }));
+    dispatch(selectItem(item));
+    navigation.navigate('StationeryItem', {
+      name: item.name,
+      background: item.background,
+    });
+  };
 
-    navigation.navigate("StationeryItem", { name: item.name, idI: item.id, background: item.background })
-  }
-
-  const data = Items.filter((item) => item.idC === idC);
-  const renderItem = ({ item }) => <SourceStationery item={item} onSelected={onSelected} />
+  const renderItem = ({ item }) => (
+    <SourceStationery
+      item={item}
+      onSelected={modalVisible ? () => null : onSelected}
+    />
+  );
   return (
-
     <View style={styles.container}>
-      <Search dataList={data} filterSearch={filterSearch} />
+      <Text>{selectedCategory?.id}</Text>
       <FlatList
-
-        data={filterListSearch.length > 0 ? filterListSearch : data}
+        data={filter}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
-        style={styles.container} />
+        ListEmptyComponent={
+          <Text style={styles.emptyMessage}> No hay items registrados</Text>
+        }
+        keyExtractor={(item) => item.id}
+        style={styles.container}
+      />
     </View>
   );
-}
+};
 export default StationeryItems;

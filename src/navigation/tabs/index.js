@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import StationeryMain from "../stationeryMain";
-import { Ionicons, MaterialCommunityIcons  } from '@expo/vector-icons'; 
-import {Sales, SalesData, GlobalSearch} from "../../screens";
+import MainMore from "../mainMore";
+import { Ionicons, MaterialCommunityIcons, MaterialIcons  } from '@expo/vector-icons'; 
+import {Sales, SalesData, GlobalSearch, History} from "../../screens";
 import {colors} from "../../constants/themes"
-import {Card} from "../../components/card";
 import {styles} from "./style";
 
 // "SourceSansPro-BlackItalic"
@@ -17,18 +17,20 @@ const Tabs = () => {
       initialRouteName="StationeryCategory"
       screenOptions={{
         headerShown: false,
-        tabBarStyle: styles.tabBar
+        tabBarStyle: styles.tabBar,
+        tabBarHideOnKeyboard: true
         //tabBarShowLabel: false
       }}
+
       >
       <ButtonTab.Screen
         name="StationeryCategory"
         component={StationeryMain}
         options={{
-          title: "Categorias",
+          title: "",
           tabBarIcon: ({ focused }) => (
 
-            <Ionicons name={focused ? "ios-home": "ios-home-outline"} size={24} color={colors.secondary} />
+            <Ionicons name={focused ? "ios-home": "ios-home-outline"} size={24} color={colors.yellow} />
           )
         }}/>
 
@@ -36,11 +38,10 @@ const Tabs = () => {
         name="GlobalSearch"
         component={GlobalSearch}
         options={{
-          title: "Busqueda global",
-          tabBarStyle: {...styles.tabBar ,backgroundColor: colors.dark},
+          title: "",
           tabBarIcon: ({ focused }) => (
 
-            <Ionicons name={focused ? "search-sharp": "search-outline"} size={24} color={colors.secondary} />
+            <Ionicons name={focused ? "search-sharp": "search-outline"} size={24} color={colors.yellow} />
           )
         }}/>
 
@@ -48,10 +49,10 @@ const Tabs = () => {
         name="Sales"
         component={Sales}
         options={{
-          title: "Agregar...",
+          title: "",
           tabBarIcon: ({ focused }) => (
 
-            <Ionicons name={focused ? "information-circle-sharp": "information-circle-outline"} size={24} color={colors.secondary} />
+            <Ionicons name={focused ? "information-circle-sharp": "information-circle-outline"} size={24} color={colors.yellow} />
           )
         }}/>
 
@@ -59,12 +60,24 @@ const Tabs = () => {
         name="SalesData"
         component={SalesData}
         options={{
-          title: "Categorias",
+          title: "",
           tabBarIcon: ({ focused }) => (
 
-            <MaterialCommunityIcons name={focused? "database" : "database-outline"} size={24} color={colors.secondary} />
+            <MaterialCommunityIcons name={focused? "database" : "database-outline"} size={24} color={colors.yellow} />
           )
         }}/>
+
+      <ButtonTab.Screen 
+        name="MainMore"
+        component={MainMore}
+        options={{
+          title: "",
+          tabBarIcon: ({ focused }) => (
+
+            <MaterialIcons name={focused? "more": "more-horiz"} size={24} color={colors.yellow} />
+          )
+        }}/>
+
     </ButtonTab.Navigator>
     
   );

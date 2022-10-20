@@ -8,4 +8,7 @@ export const colors = {
   warn: "#FFF82C",
   text: "#0b090a",
   white: "#f4f3ee",
+  yellow: "#FFBA08",
+  blue: "#3F88C5",
+  gray: "#c2c5aa"
 }
