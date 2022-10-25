@@ -46,12 +46,6 @@ export const styles = StyleSheet.create({
     width: width * 0.9,
   },
 
-  flatListContainer: {
-    width: width,
-    alignSelf: 'center',
-    alignItems: 'center',
-  },
-
   message: {
     fontSize: 12,
   },

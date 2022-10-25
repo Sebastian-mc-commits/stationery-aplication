@@ -1,13 +1,20 @@
 import { useFonts } from 'expo-font';
 import AppNavigator from './src/navigation';
-import { SafeAreaView, StyleSheet, Platform, View, ActivityIndicator } from 'react-native';
-import store from './src/store';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Platform,
+  View,
+  ActivityIndicator,
+} from 'react-native';
+import { store } from './src/store';
 import { Provider } from 'react-redux';
-import {colors} from "./src/constants/themes";
+import { colors } from './src/constants/themes';
+import Sales from './src/screens/sales';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
 
   contentLoader: {

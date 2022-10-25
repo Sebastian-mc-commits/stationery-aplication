@@ -9,18 +9,18 @@ import {
   Keyboard,
   ScrollView,
   Animated,
+  TouchableOpacity,
 } from 'react-native';
 import { styles } from './styles';
 import { useDispatch } from 'react-redux';
-import {
-  addCategory,
-  getCategory,
-  addItem,
-  addCommit,
-} from '../../store/actions';
-import { Input, Card, AnimatedHeader, FormItems } from '../../components';
+import { addCategory, getCategory } from '../../store/slices/category.slice';
+import { addCommit } from '../../store/slices/history.slice';
+import { addItem } from '../../store/slices/item.slice';
+import { Input, Card, AnimatedHeader, ImageSelector } from '../../components';
+import FormItems from '../../components/formItems';
 import { colors } from '../../constants/themes';
 import { onInputChange, formReducer } from '../../utils/forms';
+import { Ionicons } from '@expo/vector-icons';
 
 const Add = () => {
   const dispatch = useDispatch();
@@ -101,18 +101,18 @@ const Add = () => {
               touched={formState.name.touched}
               onChangeText={(text) => onHandleChangeText(text, 'name')}
             />
-
-            <Input
-              placeholder="Ingresar imagen (opcional)"
-              label="Imagen"
-              value={formState.image.value}
-              placeholderTextColor={colors.gray}
-              autoCapitalize="none"
-              autoCorrect={false}
-              hasError={formState.image.hasError}
-              error={formState.image.error}
-              touched={formState.image.touched}
-              onChangeText={(text) => onHandleChangeText(text, 'image')}
+            <ImageSelector
+              onImage={(image) =>
+                distpatchFormState({
+                  type: 'UPDATE_FORM',
+                  data: {
+                    name: 'image',
+                    value: image,
+                  },
+                })
+              }
+              valueImage={formState.image.value}
+              onChangeTextImage={(text) => onHandleChangeText(text, 'image')}
             />
 
             <Input

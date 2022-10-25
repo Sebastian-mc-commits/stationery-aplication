@@ -4,9 +4,9 @@ import { SourceStationery } from '../../components';
 import { styles } from './style';
 import {
   selectCategory,
-  addCommit,
   getCategory
-} from '../../store/actions';
+} from '../../store/slices/category.slice';
+import {addCommit} from '../../store/slices/history.slice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -41,7 +41,7 @@ const StationeryCategory = ({ navigation }) => {
       onSelected={selectedBySearch ? () => null : onSelected}>
       <Image
         source={{ uri: item.image }}
-        style={{ width: '50%', height: '100%', opacity: 0.7 }}
+        style={{ width: '90%', height: '100%', opacity: 0.7 }}
       />
     </SourceStationery>
   );

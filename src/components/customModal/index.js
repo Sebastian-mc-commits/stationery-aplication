@@ -21,13 +21,15 @@ const CustomModal = ({children, visible}) => {
       setModalVisible(true);
       Animated.spring(animationValue, {
         toValue: 1,
-        duration: 1000
+        duration: 1000,
+        useNativeDriver: true,
       }).start();
     } else {
       setTimeout(() => setModalVisible(false), 1000);
       Animated.spring(animationValue, {
         toValue: 0,
-        duration: 1000
+        duration: 1000,
+        useNativeDriver: true,
       }).start();
     }
   }

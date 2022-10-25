@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
   },
 
   containerFlatList: {
-    height: height,
+    height: "100%",
 
     alignSelf: 'center',
   },

@@ -10,4 +10,5 @@ export { default as AnimatedHeader } from './animatedHeader';
 export { default as FormItems } from './formItems';
 export { default as Picker } from './picker';
 export { default as UpdateItem } from './update.item/index';
-export {default as DismissDelete} from "./dismissDelete";
+export { default as DismissDelete } from './dismissDelete';
+export { default as ImageSelector } from './image-selector';

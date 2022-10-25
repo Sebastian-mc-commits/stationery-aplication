@@ -7,10 +7,10 @@ import { CustomModal } from '../components';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { colors } from '../constants/themes';
-import { activeModal } from '../store/actions';
+import { activeModal } from '../store/slices/customModal.slice';
 const styles = StyleSheet.create({
   icon: {
-    alignSelf: "flex-start"
+    alignSelf: 'flex-start',
   },
 });
 const AppNavigator = () => {

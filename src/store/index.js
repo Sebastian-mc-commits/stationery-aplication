@@ -1,19 +1,20 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 import {
-  itemReducer,
-  categoryReducer,
-  historyReducer,
-  globalSearchReducer,
-  customModalReducer,
-} from './reducers';
-import thunk from 'redux-thunk';
+  customModalSlice,
+  categorySlice,
+  itemSlice,
+  historySlice,
+  globalSearchSlice,
+} from './slices';
 
-const rootReducer = combineReducers({
-  items: itemReducer,
-  category: categoryReducer,
-  history: historyReducer,
-  globalSearch: globalSearchReducer,
-  customModal: customModalReducer,
+export const store = configureStore({
+  reducer: {
+    customModal: customModalSlice,
+    category: categorySlice,
+    item: itemSlice,
+    history: historySlice,
+    globalSearch: globalSearchSlice,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }),
 });
-
-export default createStore(rootReducer, applyMiddleware(thunk));

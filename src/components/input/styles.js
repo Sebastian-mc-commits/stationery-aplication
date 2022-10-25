@@ -12,11 +12,11 @@ export const styles = StyleSheet.create({
     padding: 10,
     borderBottomColor: colors.primary,
     borderBottomWidth: 1,
-    width: width * 0.9,
+    width: '90%',
   },
 
   message: {
-    marginTop: width * 0.05
+    marginTop: width * 0.05,
   },
 
   helperText: {

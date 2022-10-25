@@ -7,18 +7,17 @@ import { colors } from '../../constants/themes';
 import { useSelector, useDispatch } from 'react-redux';
 import { MaterialIcons } from '@expo/vector-icons';
 import {
-  selected,
-  deleteItem,
-  activeModal,
   updateCategory,
-  updateItem,
-  selectCategory
-} from '../../store/actions';
+  selectCategory,
+} from '../../store/slices/category.slice';
+import { updateItem, deleteItem } from '../../store/slices/item.slice';
+import { activeModal } from '../../store/slices/customModal.slice';
+import { selected } from '../../store/slices/globalSearch.slice';
 
 const GlobalSearch = ({ navigation }) => {
   const [filterListSearch, setFilterListSearch] = useState([]);
   const dispatch = useDispatch();
-  const items = useSelector((state) => state.items.items);
+  const items = useSelector((state) => state.item.items);
   const category = useSelector((state) => state.category.list);
 
   const categoryItems = items.concat(category);
@@ -28,9 +27,9 @@ const GlobalSearch = ({ navigation }) => {
       return dispatch(deleteItem(item));
     } else if (screen === 'showItems') {
       dispatch(selectCategory(item.id));
-      return dispatch(activeModal(true, <StationeryItems />));
+      return dispatch(activeModal({value: true, content: <StationeryItems />}));
     }
-    return dispatch(selected(item, screen));
+    return dispatch(selected({item, screen}));
   };
   const conditionFilterSearch =
     filterListSearch.length < 3 ? colors.danger : colors.primary;
@@ -106,7 +105,6 @@ const GlobalSearch = ({ navigation }) => {
       <FlatList
         data={filterListSearch}
         renderItem={renderItem}
-        style={styles.flatListContainer}
         keyExtractor={(item) => item.id}
       />
     </Card>

@@ -12,21 +12,16 @@ import {
 } from 'react-native';
 import { styles } from './styles';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getItem,
-  deleteItem,
-  updateItem,
-  updateCategory,
-  getCategory,
-  addCommit,
-} from '../../store/actions';
+import { updateCategory, getCategory } from '../../store/slices/category.slice';
+import { deleteItem, updateItem, getItem } from '../../store/slices/item.slice';
+import { addCommit } from '../../store/slices/history.slice';
 import { Card, AnimatedHeader, UpdateItem } from '../../components';
 import { colors } from '../../constants/themes';
 
 const UpdateDelete = () => {
   const dispatch = useDispatch();
 
-  const items = useSelector((state) => state.items.items);
+  const items = useSelector((state) => state.item.items);
   const categoryList = useSelector((state) => state.category.list);
   const animation = useRef(new Animated.Value(0)).current;
   const scrollView = useRef();

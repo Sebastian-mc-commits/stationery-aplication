@@ -9,12 +9,12 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
-import { addCommit, deleteCommit } from '../../store/actions';
+import { addCommit, deleteCommit } from '../../store/slices/history.slice';
 import { styles } from './style';
 import { DismissDelete } from '../../components';
 
 const History = () => {
-  const history = useSelector((state) => state.history.history);
+  const history = useSelector((state) => state.history.historyList);
   const [deleteItem, setDeleteItem] = useState('');
 
   const renderItem = ({ item }) => (
@@ -23,12 +23,9 @@ const History = () => {
         <Text style={styles.historyName}>{item.name}</Text>
         <Text>Fecha {item.date}</Text>
       </View>
-      <MaterialIcons
-        name="delete"
-        size={24}
-        color="black"
-        onPress={() => setDeleteItem(item)}
-      />
+      <TouchableOpacity onPress={() => setDeleteItem(item)}>
+        <MaterialIcons name="delete" size={24} color="black" />
+      </TouchableOpacity>
     </View>
   );
 
@@ -38,7 +35,7 @@ const History = () => {
         <FlatList
           data={history}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString}
+          keyExtractor={Date.now().toString()}
           ListEmptyComponent={
             <Text style={styles.emptyMessage}>Historial Vacio</Text>
           }

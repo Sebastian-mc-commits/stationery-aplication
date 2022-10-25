@@ -1,18 +1,18 @@
 import React, { useReducer } from 'react';
-import { Card, Picker, Input } from '../index';
-import { Button, View, TouchableOpacity } from 'react-native';
+import { Card, Picker, Input, ImageSelector } from '../index';
+import { Button, View, TouchableOpacity, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { colors } from '../../constants/themes';
 import { styles } from './styles';
 import { pickerValues, category } from '../../constants/data';
 import { Ionicons } from '@expo/vector-icons';
-import { selected } from '../../store/actions';
+import { selected } from '../../store/slices/globalSearch.slice';
 
 const UpdateItem = ({ dispatchAction, list, showComponentList }) => {
   const selectedBySearch = useSelector(
     (state) => state.globalSearch.selectedSearch.item
   );
-  const items = useSelector((state) => state.items.items);
+
   const dispatch = useDispatch();
 
   const onConfirm = () => {
@@ -77,7 +77,7 @@ const UpdateItem = ({ dispatchAction, list, showComponentList }) => {
           />
         )}
         <Picker
-          list={showComponentList ? category : pickerValues}
+          list={showComponentList ? pickerValues : category}
           title="Valores"
           onSelectedList={(text) =>
             onHandleChangeText(text.type, 'valueInputItems')
@@ -85,16 +85,31 @@ const UpdateItem = ({ dispatchAction, list, showComponentList }) => {
           nameError="Items no encontrados"
         />
       </View>
-
-      <Input
-        placeholder="Actualizar item"
-        label={formState.valueItem.value?.name}
-        value={formState.name.value}
-        placeholderTextColor={colors.gray}
-        autoCapitalize="none"
-        autoCorrect={false}
-        onChangeText={(text) => onHandleChangeText(text, 'name')}
-      />
+      {formState.valueInputItems.value === 'image' ? (
+        <ImageSelector
+          onImage={(image) =>
+            distpatchFormState({
+              type: 'UPDATE_FORM',
+              data: {
+                typeForm: 'name',
+                valueInput: image,
+              },
+            })
+          }
+          valueImage={formState.name.value}
+          onChangeTextImage={(text) => onHandleChangeText(text, 'name')}
+        />
+      ) : (
+        <Input
+          placeholder="Actualizar item"
+          label={formState.valueItem.value?.name}
+          value={formState.name.value}
+          placeholderTextColor={colors.gray}
+          autoCapitalize="none"
+          autoCorrect={false}
+          onChangeText={(text) => onHandleChangeText(text, 'name')}
+        />
+      )}
       <Button
         title="Actualizar"
         onPress={onConfirm}

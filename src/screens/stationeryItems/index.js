@@ -3,18 +3,17 @@ import { View, FlatList, Text } from 'react-native';
 import { Search, SourceStationery } from '../../components';
 import { styles } from './styles';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectItem, addCommit } from '../../store/actions';
+import { addCommit } from '../../store/slices/history.slice';
+import { selectedItem, getItem } from '../../store/slices/item.slice';
 import { useFocusEffect } from '@react-navigation/native';
-import { getItem } from '../../store/actions';
 const StationeryItems = ({ navigation, route }) => {
   const dispatch = useDispatch();
 
   const selectedCategory = useSelector((state) => state.category.selected);
-  const modalVisible = useSelector((state) => state.customModal.content.value);
+  const modalVisible = useSelector((state) => state.customModal.content);
+  const items = useSelector((state) => state.item.items);
 
-  const items = useSelector((state) => state.items.items);
-
-  const filter = items.filter((item) => item.key == selectedCategory);
+  const filter = items.filter((item) => item.key === selectedCategory);
 
   useFocusEffect(
     useCallback(() => {
@@ -24,7 +23,7 @@ const StationeryItems = ({ navigation, route }) => {
 
   const onSelected = (item) => {
     dispatch(addCommit({ id: Date.now(), name: item.name, date: Date.now() }));
-    dispatch(selectItem(item));
+    dispatch(selectedItem(item));
     navigation.navigate('StationeryItem', {
       name: item.name,
       background: item.background,
@@ -46,7 +45,7 @@ const StationeryItems = ({ navigation, route }) => {
         ListEmptyComponent={
           <Text style={styles.emptyMessage}> No hay items registrados</Text>
         }
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         style={styles.container}
       />
     </View>

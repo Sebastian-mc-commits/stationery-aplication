@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Modal } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { styles } from './styles';
 import { colors } from '../../constants/themes';
-import { activeModal } from '../../store/actions';
+import { activeModal } from '../../store/slices/customModal.slice';
 import { useDispatch } from 'react-redux';
 
 const More = ({ navigation }) => {
@@ -47,7 +47,7 @@ const More = ({ navigation }) => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => dispatch(activeModal(true, <ComponentModal />))}
+        onPress={() => dispatch(activeModal({value: true, content: <ComponentModal />}))}
         style={styles.component}>
         <MaterialIcons name="add" size={24} color={colors.dark} />
         <Text>Agregar</Text>
